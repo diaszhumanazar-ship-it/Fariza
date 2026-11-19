@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fariza — әйелдер киімі</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,500;0,700;1,500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8eef1;--ink:#2b1236;--rose:#e9b9c8;--teal:#1f7a84;--gold:#c9a24b;--card:#fff;--mut:#6d5a75}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.6 Manrope,system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+header{position:sticky;top:0;z-index:20;background:rgba(248,238,241,.92);backdrop-filter:blur(8px);border-bottom:1px solid #e6d3da}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:700 26px 'Bodoni Moda',serif;letter-spacing:.02em}
+nav{display:flex;gap:22px;align-items:center;font-weight:500}
+.cartbtn{background:var(--ink);color:#fff;padding:8px 16px;border-radius:999px;font-weight:700}
+.cartbtn span{background:var(--gold);color:var(--ink);border-radius:999px;padding:0 8px;margin-left:6px}
+.hero{padding:56px 0 40px;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+.hero h1{font:700 clamp(72px,15vw,170px)/.9 'Bodoni Moda',serif;letter-spacing:-.02em;color:var(--ink)}
+.hero h1 i{display:block;font-weight:500;font-size:.28em;letter-spacing:0;color:var(--teal);margin-top:14px}
+.hero p{max-width:44ch;margin:22px 0 28px;color:var(--mut);font-size:18px}
+.btn{display:inline-block;background:var(--teal);color:#fff;padding:14px 28px;border-radius:999px;font-weight:700;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.art{aspect-ratio:3/4;border-radius:200px 200px 24px 24px;background:linear-gradient(170deg,var(--rose),#d9a1b6);position:relative;overflow:hidden;display:grid;place-items:end center}
+.art svg{width:78%;height:auto}
+.art::after{content:"";position:absolute;inset:14px;border:1.5px solid rgba(43,18,54,.35);border-radius:188px 188px 14px 14px;pointer-events:none}
+.orn{height:34px;background:var(--ink)}
+.orn svg{width:100%;height:100%;display:block}
+section{padding:64px 0}
+h2{font:700 clamp(30px,5vw,46px)/1.1 'Bodoni Moda',serif}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 30px}
+.filters button{padding:8px 18px;border-radius:999px;border:1.5px solid var(--ink);font-weight:500}
+.filters button[aria-pressed=true]{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:22px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.tile{aspect-ratio:1/1.1;display:grid;place-items:center}
+.tile svg{width:62%;height:auto}
+.info{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.info h3{font:500 20px 'Bodoni Moda',serif}
+.price{font-weight:700;color:var(--teal)}
+.row{display:flex;gap:8px;margin-top:auto}
+select{flex:1;padding:9px;border-radius:10px;border:1.5px solid #d8c4cd;background:#fff;font:inherit}
+.add{background:var(--ink);color:#fff;padding:9px 16px;border-radius:10px;font-weight:700}
+.add:hover{background:var(--teal)}
+.about{background:var(--ink);color:#f3e6ec}
+.about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about p{color:#d9c3cf;max-width:52ch;margin-top:16px}
+.facts{display:grid;gap:14px}
+.facts div{border:1px solid rgba(233,185,200,.4);border-radius:16px;padding:18px}
+.facts b{display:block;font:500 22px 'Bodoni Moda',serif;color:var(--rose)}
+footer{padding:34px 0;text-align:center;color:var(--mut)}
+#shade{position:fixed;inset:0;background:rgba(43,18,54,.5);opacity:0;pointer-events:none;transition:.25s;z-index:30}
+#drawer{position:fixed;top:0;right:0;height:100%;width:min(400px,100%);background:#fff;z-index:40;transform:translateX(100%);transition:transform .3s;display:flex;flex-direction:column;padding:20px}
+body.open #shade{opacity:1;pointer-events:auto}
+body.open #drawer{transform:none}
+#drawer header{all:unset;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+#items{flex:1;overflow:auto;display:grid;gap:12px;align-content:start}
+.it{display:flex;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid #eee}
+.it small{color:var(--mut);display:block}
+.qty{display:flex;gap:8px;align-items:center}
+.qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ink)}
+.empty{color:var(--mut)}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin:14px 0}
+.wa{width:100%;text-align:center;background:#1fa855;color:#fff;padding:14px;border-radius:12px;font-weight:700}
+.wa[aria-disabled=true]{opacity:.4;pointer-events:none}
+@media(max-width:760px){.hero,.about .wrap{grid-template-columns:1fr}nav a.l{display:none}.art{max-width:340px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#top">Fariza</a>
+  <nav><a class="l" href="#shop">Жинақ</a><a class="l" href="#about">Біз туралы</a>
+  <button class="cartbtn" id="open" aria-label="Себетті ашу">Себет<span id="cnt">0</span></button></nav>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <h1>Fariza<i>әйелдер киімі</i></h1>
+    <p>Қазақ өрнегінен шабыт алған күнделікті киім. Сапалы мата, таза пішін, өзіңе лайық түс.</p>
+    <a class="btn" href="#shop">Жинақты көру</a>
+  </div>
+  <div class="art" aria-hidden="true">
+    <svg viewBox="0 0 200 260"><path d="M70 10c10 18 50 18 60 0l22 34-18 20 6 196H60l6-196-18-20z" fill="#2b1236"/><path d="M82 64h36v196H82z" fill="#1f7a84"/><path d="M100 70v190" stroke="#c9a24b" stroke-width="3"/></svg>
+  </div>
+</div>
+
+<div class="orn" aria-hidden="true"><svg preserveAspectRatio="none"><defs><pattern id="p" width="68" height="34" patternUnits="userSpaceOnUse"><path d="M34 4l10 13-10 13-10-13z" fill="none" stroke="#c9a24b" stroke-width="1.6"/><path d="M4 17c8-12 14-12 14 0s-8 9-8 2M64 17c-8-12-14-12-14 0s8 9 8 2" fill="none" stroke="#e9b9c8" stroke-width="1.6"/></pattern></defs><rect width="100%" height="100%" fill="url(#p)"/></svg></div>
+
+<section id="shop"><div class="wrap">
+  <h2>Жаңа жинақ</h2>
+  <div class="filters" id="filters" role="group" aria-label="Санат"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="about" id="about"><div class="wrap">
+  <div>
+    <h2>Киім — мінезіңнің жалғасы</h2>
+    <p>Fariza — Қазақстанда тігілген әйелдер киімі. Әр модельді шағын топ ойлап, жергілікті шеберханада тігеді. Мата табиғи, пішін жайлы, тігіс берік.</p>
+  </div>
+  <div class="facts">
+    <div><b>Қазақстан бойынша жеткізу</b>Алматы мен Астанада 1–2 күнде</div>
+    <div><b>14 күн ішінде айырбас</b>Өлшем сәйкес келмесе, ауыстырамыз</div>
+    <div><b>Сұрақ болса — WhatsApp</b>Күніне 10:00–21:00 жауап береміз</div>
+  </div>
+</div></section>
+</main>
+
+<footer>© 2026 Fariza. Барлық құқық қорғалған.</footer>
+
+<div id="shade"></div>
+<aside id="drawer" aria-label="Себет">
+  <header><h2 style="font-size:28px">Себет</h2><button id="close" aria-label="Жабу" style="font-size:28px">×</button></header>
+  <div id="items"></div>
+  <div class="total"><span>Жалпы</span><span id="sum">0 ₸</span></div>
+  <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">WhatsApp арқылы тапсырыс беру</a>
+</aside>
+
+<script>
+const PHONE="77000000000"; // өз нөміріңізді жазыңыз: 7701XXXXXXX
+const CATS=["Барлығы","Көйлектер","Блузкалар","Сырт киім","Төменгі киім"];
+const P=[
+ {id:1,n:"Айгүл көйлегі",c:"Көйлектер",p:28500,bg:"#f1c9d5",f:"#1f7a84",s:"d"},
+ {id:2,n:"Мақпал көйлек",c:"Көйлектер",p:34900,bg:"#d7c4e3",f:"#2b1236",s:"d"},
+ {id:3,n:"Жібек блузка",c:"Блузкалар",p:16900,bg:"#cfe5e6",f:"#c2587f",s:"t"},
+ {id:4,n:"Нұр кардигані",c:"Блузкалар",p:22000,bg:"#f3e2b8",f:"#2b1236",s:"t"},
+ {id:5,n:"Дала пальтосы",c:"Сырт киім",p:64000,bg:"#e9b9c8",f:"#1f7a84",s:"c"},
+ {id:6,n:"Қыстық жеңіл куртка",c:"Сырт киім",p:48500,bg:"#cfe5e6",f:"#2b1236",s:"c"},
+ {id:7,n:"Атлас юбка",c:"Төменгі киім",p:17800,bg:"#f1c9d5",f:"#c9a24b",s:"k"},
+ {id:8,n:"Кең шалбар",c:"Төменгі киім",p:19500,bg:"#d7c4e3",f:"#1f7a84",s:"k"}
+];
+const SH={
+ d:f=>`<path d="M40 10h20l6 40 24 90H10l24-90z" fill="${f}"/><path d="M40 10c6 12 14 12 20 0" fill="none" stroke="#fff" stroke-width="2"/>`,
+ t:f=>`<path d="M30 10c6 10 34 10 40 0l30 24-12 22-14-8v72H26V48l-14 8L0 34z" fill="${f}"/>`,
+ c:f=>`<path d="M30 8c6 12 34 12 40 0l30 22-8 30-10-4v94H18V56l-10 4-8-30z" fill="${f}"/><path d="M50 14v140" stroke="#fff" stroke-width="2"/>`,
+ k:f=>`<path d="M22 10h56l18 120H4z" fill="${f}"/><path d="M22 10h56v12H22z" fill="#fff" opacity=".35"/>`
+};
+const fmt=n=>n.toLocaleString("ru-RU").replace(/\u00a0/g," ")+" ₸";
+let cat="Барлығы",cart=[];
+const $=s=>document.querySelector(s);
+
+function renderFilters(){
+ $("#filters").innerHTML=CATS.map(c=>`<button aria-pressed="${c===cat}" data-c="${c}">${c}</button>`).join("");
+}
+function renderGrid(){
+ $("#grid").innerHTML=P.filter(x=>cat==="Барлығы"||x.c===cat).map(x=>`
+ <article class="card"><div class="tile" style="background:${x.bg}"><svg viewBox="-4 0 108 160" aria-hidden="true">${SH[x.s](x.f)}</svg></div>
+ <div class="info"><h3>${x.n}</h3><div class="price">${fmt(x.p)}</div>
+ <div class="row"><select aria-label="Өлшем" id="s${x.id}">${["XS","S","M","L","XL"].map(s=>`<option${s==="M"?" selected":""}>${s}</option>`).join("")}</select>
+ <button class="add" data-id="${x.id}">Қосу</button></div></div></article>`).join("");
+}
+function renderCart(){
+ const n=cart.reduce((a,i)=>a+i.q,0), sum=cart.reduce((a,i)=>a+i.q*i.p,0);
+ $("#cnt").textContent=n; $("#sum").textContent=fmt(sum);
+ $("#items").innerHTML=cart.length?cart.map((i,k)=>`<div class="it"><div>${i.n}<small>Өлшемі: ${i.s} · ${fmt(i.p)}</small></div>
+ <div class="qty"><button data-m="${k}" aria-label="Азайту">−</button>${i.q}<button data-a="${k}" aria-label="Көбейту">+</button></div></div>`).join(""):`<p class="empty">Себет бос. Жинақтан өзіңе ұнаған киімді таңда.</p>`;
+ const wa=$("#wa");
+ if(cart.length){
+  const t="Сәлем! Fariza дүкенінен тапсырыс бергім келеді:\n"+cart.map(i=>`• ${i.n}, ${i.s} — ${i.q} дана`).join("\n")+`\nЖалпы: ${fmt(sum)}`;
+  wa.href=`https://wa.me/${PHONE}?text=${encodeURIComponent(t)}`; wa.removeAttribute("aria-disabled");
+ } else {wa.href="#"; wa.setAttribute("aria-disabled","true");}
+}
+document.addEventListener("click",e=>{
+ const t=e.target.closest("button"); if(!t)return;
+ if(t.dataset.c){cat=t.dataset.c;renderFilters();renderGrid();}
+ else if(t.classList.contains("add")){
+  const x=P.find(p=>p.id==t.dataset.id), s=$("#s"+x.id).value, f=cart.find(i=>i.id===x.id&&i.s===s);
+  f?f.q++:cart.push({id:x.id,n:x.n,p:x.p,s,q:1}); renderCart();
+  const o=t.textContent; t.textContent="Қосылды ✓"; setTimeout(()=>t.textContent=o,1000);
+ }
+ else if(t.dataset.a){cart[t.dataset.a].q++;renderCart();}
+ else if(t.dataset.m){const i=cart[t.dataset.m];if(--i.q<1)cart.splice(t.dataset.m,1);renderCart();}
+ else if(t.id==="open")document.body.classList.add("open");
+ else if(t.id==="close")document.body.classList.remove("open");
+});
+$("#shade").onclick=()=>document.body.classList.remove("open");
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.body.classList.remove("open")});
+renderFilters();renderGrid();renderCart();
+</script>
+</body>
+</html>
